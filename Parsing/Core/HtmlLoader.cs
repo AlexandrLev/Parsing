@@ -5,10 +5,12 @@ using System.Threading.Tasks;
 
 namespace Parser.Core
 {
+    // класс загрузки HTML-документа по введенным настройкам
     class HtmlLoader
     {
         readonly HttpClient client;
         readonly string url;
+        
 
         public HtmlLoader(IParserSettings settings)
         {
@@ -16,6 +18,7 @@ namespace Parser.Core
             url = $"{settings.BaseUrl}/{settings.PagePrefix}/{settings.TagPrefix}";
         }
 
+        // Выдает ресурс с HTML-документом по номеру страницы
         public async Task<string> GetSourceByPageId(int id)
         {
             var currentUrl = url.Replace("{CurrentId}", id.ToString());

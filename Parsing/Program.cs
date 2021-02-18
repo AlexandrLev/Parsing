@@ -8,14 +8,15 @@ using AngleSharp.Html.Dom;
 using System.Collections.Generic;
 using AngleSharp.Dom;
 using Parsing.Core;
+using System.Threading.Tasks;
 
 namespace Parsing
 {
     class Program
     {
-        static void Main(string[] args)
+        static async Task Main(string[] args)
         {
-            Ver2();
+            await Ver2();
         }
 
         static  void Ver1()
@@ -40,18 +41,22 @@ namespace Parsing
             Console.ReadLine();
         }
 
-        static void Ver2()
+        static async Task Ver2()
         {
-            string tagPrefix = "?q=[c%23]&target_type=posts";
+            string tagPrefix = "?target_type=posts&q=[c%23]&order_by=date";
             int newsTag = 1;
 
             var parser = new ParserWorker(
                     new HabraParser()
                 );
             parser.Settings = new HabraSettings(1, 2, tagPrefix);
-            parser.Worker(newsTag);
-            
-            
+            var resultAll = await Task.Run(() => parser.Worker(newsTag));
+            int i = 1;
+            foreach (var j in resultAll)
+            {
+                Console.WriteLine(i + ") " + j.Title + " - " + j.Url + " - " + j.Date.ToString());
+                i++;
+            }
         }
     }
 }

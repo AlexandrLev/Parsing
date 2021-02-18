@@ -58,7 +58,7 @@ namespace Parser.Core
 
         
 
-        public async void Worker(int NewsTag)
+        public async Task<List<ParseNews>> Worker(int NewsTag)
         {
             List<ParseNews> resultAl = null;
             for (int i = parserSettings.StartPoint; i <= parserSettings.EndPoint; i++)
@@ -67,14 +67,18 @@ namespace Parser.Core
                 var domParser = new HtmlParser();
                 var document = await domParser.ParseDocumentAsync(source);
                 var res = parser.Parse(document, NewsTag);
-                if (resultAl == null) { resultAl = res; } else {
+                if (resultAl == null) { 
+                    resultAl = res; 
+                } 
+                else {
                     for (int j = 0; j < res.Count; j++)
                     {
+                       // Console.WriteLine(res[j].Title + " - " + res[j].Url);
                         resultAl.Add(res[j]);
                     }
                  }
             }
-            resultAll = resultAl;
+            return resultAl;
         }
 
 

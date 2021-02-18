@@ -1,6 +1,7 @@
 ﻿
 namespace Parser.Core.Habra
 {
+    // класс настроек для ХабраХабр
     class HabraSettings : IParserSettings
     {
         public HabraSettings(int start, int end, string TagPrefix)
